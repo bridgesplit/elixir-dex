@@ -1,3 +1,4 @@
+/* eslint-disable */
 var TradingView = (function (e) {
   'use strict';
   function t(e, i) {

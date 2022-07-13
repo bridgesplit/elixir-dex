@@ -1,3 +1,4 @@
+/* eslint-disable */
 function e(t, i) {
   const n = { ...t };
   for (const o in i)

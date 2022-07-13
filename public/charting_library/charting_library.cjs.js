@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 function e(t, i) {
   const n = { ...t };

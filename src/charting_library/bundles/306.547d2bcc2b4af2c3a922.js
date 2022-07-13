@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 (self.webpackChunktradingview = self.webpackChunktradingview || []).push([
   [306],
