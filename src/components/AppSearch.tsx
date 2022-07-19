@@ -1,16 +1,37 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Select, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { TOKEN_MINTS } from '@project-serum/serum';
 import apps from '@project-serum/awesome-serum';
 
 const { Option } = Select;
 
+
+interface App {
+  name: string;
+  url: string;
+  address: string;
+  description: string;
+  tags: string[];
+}
+
+
+export default function AppSearch(props) {
+  const [searchMatches, setSearchMatches] = useState<App[]>([]);
+  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
+  const [tokens, setTokens] = useState<Array<App>>([]);
+
+  useEffect(() => {
+    fetch("https://backend.bridgesplit.com/bs_token_list").then(response => response.json()).then(data => {
+      setTokens(data);
+    })
+  }, [])
+
+
 const appsAndTokens = apps.concat(
-  TOKEN_MINTS.map((mint) => {
+  tokens.map((mint) => {
     return {
       name: `${mint.name} SPL`,
-      url: `https://solscan.io/address/${mint.address.toBase58()}`,
+      url: `https://solscan.io/address/${mint.address}`,
       description: `${mint.name} SPL token`,
       icon: '',
       tags: [
@@ -19,22 +40,11 @@ const appsAndTokens = apps.concat(
         'solana',
         'spl',
         'solana',
-        mint.address.toBase58(),
+        mint.address,
       ],
     };
   }),
 );
-
-interface App {
-  name: string;
-  url: string;
-  description: string;
-  tags: string[];
-}
-
-export default function AppSearch(props) {
-  const [searchMatches, setSearchMatches] = useState<App[]>([]);
-  const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
 
   const matchApp = (searchString: string, app: App) => {
     const lowerSearchStr = searchString.toLowerCase();
